@@ -16,7 +16,7 @@ const defaultProps = {
  */
 const setup = (props = {}) => {
   const setupProps = { ...defaultProps, ...props };
-  return shallow(<GuessedWords {...props} />);
+  return shallow(<GuessedWords {...setupProps} />);
 };
 
 test("does not throw error with expected props", () => {
