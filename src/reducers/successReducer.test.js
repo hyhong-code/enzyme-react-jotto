@@ -1,7 +1,7 @@
 import { actionTypes } from "../actions/index";
 import successReducer from "./successReducer";
 
-test(`returns defalt initial state when no action is passed`, () => {
+test(`returns default initial state when no action is passed`, () => {
   // Must pass in an object for action, otherwise cannot read property type of undefined
   const newState = successReducer(undefined, {});
   expect(newState).toBe(false);
