@@ -1,25 +1,37 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-
-import Congrats from "./Congrats";
-import GuessedWords from "./GuessedWords";
-import { guessWord } from "./actions/index";
-import Input from "./Input";
 import "./App.css";
 
-const App = ({ success, guessedWords, secretWord, guessWord }) => (
-  <div className="container">
-    <h1>Jotto</h1>
-    <Congrats success={success} />
-    <Input />
-    <GuessedWords guessedWords={guessedWords} />
-  </div>
-);
+import GuessedWords from "./GuessedWords";
+import Congrats from "./Congrats";
+import Input from "./Input";
+import { getSecretWord } from "./actions";
 
-const mapStateToProps = ({ success, guessedWords, secretWord }) => ({
-  success,
-  guessedWords,
-  secretWord,
-});
+export class UnconnectedApp extends Component {
+  /**
+   * @method componentDidMount
+   * @returns {undefined}
+   */
+  componentDidMount() {
+    // get the secret word
+    this.props.getSecretWord();
+  }
 
-export default connect(mapStateToProps, { guessWord })(App);
+  render() {
+    return (
+      <div className="container">
+        <h1>Jotto</h1>
+        <Congrats success={this.props.success} />
+        <Input />
+        <GuessedWords guessedWords={this.props.guessedWords} />
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  const { success, guessedWords, secretWord } = state;
+  return { success, guessedWords, secretWord };
+};
+
+export default connect(mapStateToProps, { getSecretWord })(UnconnectedApp);
