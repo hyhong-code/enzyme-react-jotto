@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { findByTestAttr, storeFactory } from "../test/testUtils";
+import { findByTestAttr, storeFactory, checkProps } from "../test/testUtils";
 import Input from "./Input";
 
 /**
@@ -14,6 +14,13 @@ const setup = (initialState = {}) => {
   const wrapper = shallow(<Input store={store} />)
     .dive()
     .dive(); // .dive() returns a shallow wrapper around the one non-DOM child of current wrapper
+  return wrapper;
+};
+
+const connectPropSetup = (initialState = {}) => {
+  const store = storeFactory(initialState);
+  const wrapper = shallow(<Input store={store} />).dive();
+  // .dive() returns a shallow wrapper around the one non-DOM child of current wrapper
   return wrapper;
 };
 
@@ -75,4 +82,17 @@ describe("render", () => {
   });
 });
 
-describe("update state", () => {});
+describe("redux props", () => {
+  test(`has success piece of state as props`, () => {
+    const success = true;
+    const wrapper = connectPropSetup({ success });
+    const successProp = wrapper.props().success;
+    expect(successProp).toBe(true);
+  });
+
+  test(`"guessWord" action creator is a function prop`, () => {
+    const wrapper = connectPropSetup();
+    const guessWordProp = wrapper.props().guessWord;
+    expect(guessWordProp).toBeInstanceOf(Function);
+  });
+});

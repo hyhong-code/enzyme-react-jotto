@@ -25,6 +25,7 @@ describe("getSecretWord action creator", () => {
       });
     });
 
+    // Async action creator returns PROMISE ***
     await store.dispatch(getSecretWord());
     const newState = store.getState();
     expect(newState.secretWord).toBe(secretWord);
